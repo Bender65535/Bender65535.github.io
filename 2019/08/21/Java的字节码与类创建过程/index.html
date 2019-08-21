@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>Java的字节码与类创建过程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Java的字节码与类创建过程">
 <meta property="og:url" content="http://yoursite.com/2019/08/21/Java的字节码与类创建过程/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/.com//1566373036510.png">
-<meta property="og:updated_time" content="2019-08-21T08:55:40.115Z">
+<meta property="og:updated_time" content="2019-08-21T09:03:22.413Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Java的字节码与类创建过程">
 <meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta name="twitter:image" content="http://yoursite.com/.com//1566373036510.png">
   
@@ -159,6 +159,21 @@
             <article id="post-Java的字节码与类创建过程" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java的字节码与类创建过程
+    </h1>
+  
+
+        
+        <a href="/2019/08/21/Java的字节码与类创建过程/" class="archive-article-date">
+  	<time datetime="2019-08-21T09:02:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Hello-World的执行过程"><a href="#Hello-World的执行过程" class="headerlink" title="Hello World的执行过程"></a>Hello World的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -167,11 +182,10 @@
 <li>jdk将该文件输出为xxx.class文件,存入磁盘</li>
 </ul>
 </li>
-<li><p>java xxx.class</p>
-<ul>
+<li>java xxx.class<ul>
 <li>在内存中划出一块空间创建jvm</li>
 <li>校验磁盘中的xxx.class是否满足jvm规范</li>
-<li>类加载器将class文件加载到jvm的方法区中</li>
+<li>类加载器将class文件加载到jvm中</li>
 <li>执行main方法,将main压入到线程栈</li>
 </ul>
 </li>
@@ -179,22 +193,13 @@
 <p><img src="/.com//1566373036510.png" alt="JMM结构图"></p>
 <h2 id="在执行new关键字时发生了什么"><a href="#在执行new关键字时发生了什么" class="headerlink" title="在执行new关键字时发生了什么"></a>在执行new关键字时发生了什么</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Hello hello=<span class="keyword">new</span> Hello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤:"></a>执行步骤:</h3><ul>
-<li><ol>
 <li>当执行碰到new关键字时,那么main主线程便在自己的线程栈中声明了一个对象Hello hello;</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>在JVM的堆内存空间中申请一片内存地址,然后将Hello相关信息如:实例变量,实例方法等从方法区汇中加载到堆内存中.<strong>执行顺序</strong>:</li>
-</ol>
-<ul>
-<li>1) 加载实例信息进入开辟的内存中</li>
-<li>2) 执行构造方法就是<init>方法(clinit为类构造方法)</init></li>
+<li>在JVM的堆内存空间中申请一片内存地址,然后将Hello相关信息如:实例变量,实例方法等从方法区汇中加载到堆内存中.<strong>执行顺序</strong>:<ul>
+<li>加载实例信息进入开辟的内存中</li>
+<li>执行构造方法就是<init>方法(clinit为类构造方法)</init></li>
 </ul>
 </li>
-<li><ol start="3">
 <li>对象的引用指向堆内存中开辟的对象</li>
-</ol>
-</li>
 </ul>
 <h2 id="对堆内存中开辟对象的结构进行讲解"><a href="#对堆内存中开辟对象的结构进行讲解" class="headerlink" title="对堆内存中开辟对象的结构进行讲解:"></a>对堆内存中开辟对象的结构进行讲解:</h2><ul>
 <li>对象由对象的<strong>头部信息</strong>和实例信息组成<ul>
@@ -213,6 +218,8 @@
 </ul>
 </li>
 </ul>
+<h2 id="类加载器的执行过程"><a href="#类加载器的执行过程" class="headerlink" title="类加载器的执行过程"></a>类加载器的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"普通代码块"</span>);  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"构造代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Demo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出顺序:1.静态代码块,2.普通代码块,3.构造代码块</p>
 
       
 
@@ -305,15 +312,6 @@
 
   
 <nav id="article-nav">
-  
-    <a href="/2019/08/21/Java的字节码与类创建过程-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Java的字节码与类创建过程
-        
-      </div>
-    </a>
   
   
     <a href="/2019/05/17/hexo的安装及使用/" id="article-nav-older" class="article-nav-link-wrap">
