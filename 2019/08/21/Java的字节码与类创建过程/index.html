@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://bender65535.github.io/.io//1566373036510.png">
+<meta property="og:image" content="http://bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png">
 <meta property="og:updated_time" content="2019-08-21T09:03:22.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java的字节码与类创建过程">
 <meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
-<meta name="twitter:image" content="http://bender65535.github.io/.io//1566373036510.png">
+<meta name="twitter:image" content="http://bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -190,7 +190,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/.io//1566373036510.png" alt="JMM结构图"></p>
+<p><img src="//Bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png" alt="JMM结构图"></p>
 <h2 id="在执行new关键字时发生了什么"><a href="#在执行new关键字时发生了什么" class="headerlink" title="在执行new关键字时发生了什么"></a>在执行new关键字时发生了什么</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Hello hello=<span class="keyword">new</span> Hello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤:"></a>执行步骤:</h3><ul>
 <li>当执行碰到new关键字时,那么main主线程便在自己的线程栈中声明了一个对象Hello hello;</li>
