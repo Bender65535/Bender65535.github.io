@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/08/21/Java的字节码与类创建过程/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/08/21/Java的字节码与类创建过程/img/1566373036510.png">
+<meta property="og:updated_time" content="2019-08-21T08:15:05.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/21/Java的字节码与类创建过程/img/1566373036510.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,97 +156,185 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Java的字节码与类创建过程" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hello-World的执行过程"><a href="#Hello-World的执行过程" class="headerlink" title="Hello World的执行过程"></a>Hello World的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>javac xxx.java<ul>
+<li>jdk将该文件输出为xxx.class文件,存入磁盘</li>
+</ul>
+</li>
+<li><p>java xxx.class</p>
+<ul>
+<li>在内存中划出一块空间创建jvm</li>
+<li>校验磁盘中的xxx.class是否满足jvm规范</li>
+<li>类加载器将class文件加载到jvm中</li>
+<li>执行main方法,将main压入到线程栈</li>
+</ul>
+</li>
+</ul>
+<p><img src="img\1566373036510.png" alt="JMM结构图"></p>
+<h2 id="在执行new关键字时发生了什么"><a href="#在执行new关键字时发生了什么" class="headerlink" title="在执行new关键字时发生了什么"></a>在执行new关键字时发生了什么</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Hello hello=<span class="keyword">new</span> Hello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤:"></a>执行步骤:</h3><ul>
+<li>当执行碰到new关键字时,那么main主线程便在自己的线程栈中声明了一个对象Hello hello;</li>
+<li>在JVM的堆内存空间中申请一片内存地址,然后将Hello相关信息如:实例变量,实例方法等从方法区汇中加载到堆内存中.<strong>执行顺序</strong>:<ul>
+<li>加载实例信息进入开辟的内存中</li>
+<li>执行构造方法就是<init>方法(clinit为类构造方法)</init></li>
+</ul>
+</li>
+<li>对象的引用指向堆内存中开辟的对象</li>
+</ul>
+<h2 id="对堆内存中开辟对象的结构进行讲解"><a href="#对堆内存中开辟对象的结构进行讲解" class="headerlink" title="对堆内存中开辟对象的结构进行讲解:"></a>对堆内存中开辟对象的结构进行讲解:</h2><ul>
+<li>对象由对象的<strong>头部信息</strong>和实例信息组成<ul>
+<li><strong>头部信息</strong>:<ul>
+<li>填充值(使对象大小为2的n次方)</li>
+<li>持有指向方法区的指针(执行对象的静态方法要去方法区的方法表中查)</li>
+<li>描述信息<ul>
+<li>持有当前对象的线程的id</li>
+<li>持有对象的锁线程的个数</li>
+<li>在gc中存活的生命周期数</li>
+<li>偏向锁的标志(当线程已经对此对象上锁后,执行完毕,如果下一次访问该对象的线程也是上一次的线程,那么不对此线程重新上锁)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="类加载器的执行过程"><a href="#类加载器的执行过程" class="headerlink" title="类加载器的执行过程"></a>类加载器的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"普通代码块"</span>);  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"构造代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Demo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出顺序:1.静态代码块,2.普通代码块,3.构造代码块</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/Java的字节码与类创建过程/" class="archive-article-date">
-  	<time datetime="2019-08-21T08:14:29.871Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/08/21/Java的字节码与类创建过程/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/17/hexo的安装及使用/" class="archive-article-date">
-  	<time datetime="2019-05-17T08:21:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/17/hexo的安装及使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo的安装及使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/17/hexo的安装及使用/">hexo的安装及使用</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/17/hello-world/" class="archive-article-date">
-  	<time datetime="2019-05-17T08:08:16.048Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/17/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -263,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
