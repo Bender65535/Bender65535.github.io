@@ -16,7 +16,7 @@
 <meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png">
-<meta property="og:updated_time" content="2019-08-21T09:03:22.413Z">
+<meta property="og:updated_time" content="2019-08-21T15:34:19.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java的字节码与类创建过程">
 <meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
@@ -218,8 +218,39 @@
 </ul>
 </li>
 </ul>
-<h2 id="类加载器的执行过程"><a href="#类加载器的执行过程" class="headerlink" title="类加载器的执行过程"></a>类加载器的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"普通代码块"</span>);  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Demo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"构造代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Demo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出顺序:1.静态代码块,2.普通代码块,3.构造代码块</p>
+<h3 id="类加载器的执行步骤"><a href="#类加载器的执行步骤" class="headerlink" title="类加载器的执行步骤:"></a>类加载器的执行步骤:</h3><ul>
+<li>加载 : 将class文件加入到jvm</li>
+<li>验证 : <ul>
+<li>验证类信息</li>
+<li>验证元数据信息</li>
+<li>验证魔数</li>
+<li>验证当前虚拟机版本和class文件一不一样</li>
+<li>验证字节码有没违规操作</li>
+</ul>
+</li>
+<li>准备 : 把<strong>类变量</strong>(static修饰的变量)初始化为<strong>初始值</strong>(jvm默认的值),final变量直接初始化为变量值<ul>
+<li>byte 0</li>
+<li>short 0</li>
+<li>int 0</li>
+<li>long 0L</li>
+<li>char “\u0000” (就是’ ‘)</li>
+<li>boolean false</li>
+<li>float 0.0f</li>
+<li>double 0.0d</li>
+<li>引用类型 null</li>
+</ul>
+</li>
+<li>解析 : 把符号引用转为直接引用</li>
+<li>初始化 : 把我们定义的static变量或者static静态代码块按顺序组织成<clinit>构造器(也称作类构造器)来初始化变量(将你设置的值初始化给变量)</clinit></li>
+<li>使用 : 在堆内存中创建对象的时候执行顺序<ul>
+<li>加载实例信息进入开辟的内存中</li>
+<li>执行构造方法就是<init>方法</init></li>
+</ul>
+</li>
+</ul>
+<h3 id="static方法无法访问非static变量的原因"><a href="#static方法无法访问非static变量的原因" class="headerlink" title="static方法无法访问非static变量的原因 :"></a>static方法无法访问非static变量的原因 :</h3><ul>
+<li>static修饰的方法是放入方法区中的,实例的变量是在堆内存,调用static方法时,从方法区中把数据调到线程栈中,没有产生实例,因此无法访问实例的变量(即非static修饰的变量)</li>
+</ul>
 
       
 
