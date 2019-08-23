@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
-  <title>Archives: 2019/8 | Hexo</title>
+  <title>JVM常量池和内存原理 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://Bender65535.github.io/archives/2019/08/index.html">
+  <meta name="description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM常量池和内存原理">
+<meta property="og:url" content="http://Bender65535.github.io/2019/08/23/JVM常量池和内存原理/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png">
+<meta property="og:updated_time" content="2019-08-23T06:33:00.561Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="JVM常量池和内存原理">
+<meta name="twitter:description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
+<meta name="twitter:image" content="http://bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,76 +156,243 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-JVM常量池和内存原理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      JVM常量池和内存原理
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/23/JVM常量池和内存原理/" class="archive-article-date">
+
+        
+        <a href="/2019/08/23/JVM常量池和内存原理/" class="archive-article-date">
   	<time datetime="2019-08-23T02:35:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-23</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/23/JVM常量池和内存原理/">JVM常量池和内存原理</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JVM内存模型:</p>
+<p><img src="//Bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png" alt="1566528627305"></p>
+<h3 id="JVM常量池中的表"><a href="#JVM常量池中的表" class="headerlink" title="JVM常量池中的表:"></a>JVM常量池中的表:</h3><table>
+<thead>
+<tr>
+<th>常量表类型</th>
+<th>标志值(占1byte)</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTANT_Utf8</td>
+<td>1</td>
+<td>UTF-8的Unicode字符串</td>
+</tr>
+<tr>
+<td>CONSTANT_Integer</td>
+<td>3</td>
+<td>int类型的字面值(-128~127)</td>
+</tr>
+<tr>
+<td>CONSTANT_Float</td>
+<td>4</td>
+<td>float类型的字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Long</td>
+<td>5</td>
+<td>long类型的字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Double</td>
+<td>6</td>
+<td>double类型的字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Class</td>
+<td>7</td>
+<td>对一个类或接口的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_String</td>
+<td>8</td>
+<td>String类型字面值的引用</td>
+</tr>
+<tr>
+<td>CONSTANT_Fieldref</td>
+<td>9</td>
+<td>对一个字段的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_Methodref</td>
+<td>10</td>
+<td>对一个类中方法的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_InterfaceMetodref</td>
+<td>11</td>
+<td>对一个接口中方法的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_NameAndType</td>
+<td>12</td>
+<td>对一个字段或方法的部分符号引用</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="string">"haha"</span>;</span><br><span class="line">        System.out.println(string1==string2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">true</span><br></pre></td></tr></table></figure>
+<h3 id="字符串比较过程"><a href="#字符串比较过程" class="headerlink" title="字符串比较过程:"></a>字符串比较过程:</h3><ul>
+<li>执行javac的时候,将string1编译为Unicode编码</li>
+<li>class加载进入方法区</li>
+<li>将string1的值存入CONSTANT_Utf8表中</li>
+<li>将string1的tag存入CONSTANT_String表,表中的索引值指向CONSTANT_Utf8</li>
+<li>string1的压入线程栈,其引用指向CONSTANT_String表中所对应的tag再指向CONSTANT_Utf8的值</li>
+<li>string2也指向相同的tag再指向CONSTANT_Utf8的值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="keyword">new</span> String(<span class="string">"haha"</span>);</span><br><span class="line">        System.out.println(string1==string2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">false</span><br></pre></td></tr></table></figure>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h3><p>string2指向的是堆内存的地址,而堆内存中的指针才是指向常量池(注意:如果”haha”这个字面量在前面已经出现过了,那么只创建了一个对象,如果没有出现,就创建了两个对象)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="keyword">new</span> String(<span class="string">"haha"</span>);</span><br><span class="line">        System.out.println(string1==string2.intern());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">true</span><br></pre></td></tr></table></figure>
+<h3 id="原因-1"><a href="#原因-1" class="headerlink" title="原因:"></a>原因:</h3><p>intern()方法返回的堆内存中的指针,也就是常量池字面值的地址.如果常量池里面没有这个字面量,那么先把这个字面值放到常量表里面之后返回常量表的地址</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="string">"ha"</span>;</span><br><span class="line">        String string3=string2+<span class="string">"ha"</span></span><br><span class="line">        System.out.println(string1==string3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">false</span><br></pre></td></tr></table></figure>
+<h3 id="原因-2"><a href="#原因-2" class="headerlink" title="原因:"></a>原因:</h3><p>string3在运行时通过StringBuilder拼接后将拼接号的字符串放入常量池由于常量池已经有了”haha”所以不用再放,并且StringBuilder堆内存中的指针指向常量池”haha”.string3为StringBuilder的地址,string1为常量池中CONSTANT_Utf8表的地址,故二者不相等</p>
+<p><strong>注意</strong>:如果string3==”ha”+”ha”,则返回true.这是因为在编译时字符串已经拼接完毕string3=string2+”ha”之所以不会拼接是因为string2只有在执行时才变为真实地址</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://Bender65535.github.io/2019/08/23/JVM常量池和内存原理/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/21/Java的字节码与类创建过程/" class="archive-article-date">
-  	<time datetime="2019-08-21T09:02:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/21/Java的字节码与类创建过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java的字节码与类创建过程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/21/Java的字节码与类创建过程/">Java的字节码与类创建过程</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -242,8 +415,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
