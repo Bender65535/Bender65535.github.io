@@ -152,6 +152,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HashMap在面试中的各种考点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/04/HashMap在面试中的各种考点/">HashMap在面试中的各种考点</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/04/HashMap在面试中的各种考点/" class="archive-article-date">
+  	<time datetime="2019-09-04T14:16:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="为什么要容量要2的指数次幂"><a href="#为什么要容量要2的指数次幂" class="headerlink" title="为什么要容量要2的指数次幂?"></a>为什么要容量要2的指数次幂?</h3><p>hashcode的取模运算要换算成二进制,HashMap扩容后要移动所有下标都要移动位置,有需要进行取模运算</p>
+<p>length=2的指数次幂的时候: hash%length==hash&amp;(length-1),不为2的指数次幂时等式不满足</p>
+<p>hash:       1001 0101 1000 0101 </p>
+<p>length-1:  0000 0000 0000 1111 </p>
+<p>当二者相与时,hashcode的范围必然会在0-15之间</p>
+<p>HashMap的初始容量为16</p>
+<p>初始长度必须是2的指数次幂,如果不是,就在调用put方法的时候把初始容量改成大于这个数的2的指数次幂的数(如:7–&gt;8)</p>
+<h3 id="为什么加载因子是0-75"><a href="#为什么加载因子是0-75" class="headerlink" title="为什么加载因子是0.75?"></a>为什么加载因子是0.75?</h3><p>如果加载因子大于0.75,可以最大化利用空间,加载因子小于0.75时,不容易发生哈希冲突.折中后选择0.75效率最高</p>
+<h3 id="为什么HashMap的链表长度到8时才转为红黑树"><a href="#为什么HashMap的链表长度到8时才转为红黑树" class="headerlink" title="为什么HashMap的链表长度到8时才转为红黑树"></a>为什么HashMap的链表长度到8时才转为红黑树</h3><p>元素放入HashMap中产生哈希碰撞满足泊松分布,当hashmap放入的元素越来越多时,就会扩容,这时发生碰撞的概率越来越低,通过计算,当hashmap的某个链的大小到达8的概率为0.00000006,再往上就越接近于0,这时可将链表树化,方便查找数据</p>
+<h3 id="HashMap的扩容机制"><a href="#HashMap的扩容机制" class="headerlink" title="HashMap的扩容机制"></a>HashMap的扩容机制</h3><p>当hashmap中的元素个数超过数组大小<em>loadFactor时，就会进行数组扩容,loadFactor的默认值为0.75，也就是说，默认情况下，数组大小为16，那么当hashmap中元素个数超过16\</em>0.75=12的时候，就把数组的大小扩展为2*16=32，即扩大一倍，而在hashmap数组扩容之后，最消耗性能的点就出现了：原数组中的数据必须重新计算其在新数组中的位置，并放进去，这就是resize</p>
+<h3 id="HashMap产生死锁的原因"><a href="#HashMap产生死锁的原因" class="headerlink" title="HashMap产生死锁的原因"></a>HashMap产生死锁的原因</h3><p>JDK7在扩容把元素迁移到新的数组上时,在链表或树上的元素会形成一个闭环,当再次遍历扩容后的hashmap时就会死锁</p>
+<p>在JDK8中,hashmap使用了高低位四个指针避免了扩容的死锁,但在多线程下还是会产生数据丢失</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">java 面试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/04/HashMap在面试中的各种考点/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JVM常量池和内存原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,6 +797,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">java 面试</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
