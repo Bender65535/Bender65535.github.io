@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1567920726148.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043123417.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043436785.png">
-<meta property="og:updated_time" content="2019-09-09T15:47:50.250Z">
+<meta property="og:updated_time" content="2019-09-10T00:37:29.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM的堆内存模型">
 <meta name="twitter:description" content="JDK1.7的堆内存模型:  Young 年轻区(代) Young区被划分为三部分,Eden区和两个大小严格相同的Survivor区,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个留作垃圾收集时辅助对象用,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenur">
@@ -308,9 +308,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/09/10/垃圾回收的常见算法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          垃圾回收的常见算法
+        
+      </div>
+    </a>
   
-    <a href="/2019/09/09/JVM参数类型及常用参数/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JVM参数类型及常用参数</div>
+  
+    <a href="/2019/09/09/JVM常见参数及命令/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM常见参数及命令</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -441,6 +450,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">java , jvm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
             
             <div class="clearfix"></div>

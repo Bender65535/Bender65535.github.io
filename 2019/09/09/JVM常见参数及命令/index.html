@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
-  <title>Archives: 2019/9 | Hexo</title>
+  <title>JVM常见参数及命令 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://Bender65535.github.io/archives/2019/09/index.html">
+  <meta name="description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
+<meta name="keywords" content="java , jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM常见参数及命令">
+<meta property="og:url" content="http://Bender65535.github.io/2019/09/09/JVM常见参数及命令/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-10T01:06:16.808Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="JVM常见参数及命令">
+<meta name="twitter:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,150 +155,172 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-JVM常见参数及命令" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/10/垃圾收集器以及内存分配/" class="archive-article-date">
-  	<time datetime="2019-09-10T03:02:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/10/垃圾收集器以及内存分配/">垃圾收集器以及内存分配</a>
+    <h1 class="article-title" itemprop="name">
+      JVM常见参数及命令
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/10/垃圾回收的常见算法/" class="archive-article-date">
-  	<time datetime="2019-09-10T01:09:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/10/垃圾回收的常见算法/">垃圾回收的常见算法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">java , jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/09/JVM的堆内存模型/" class="archive-article-date">
-  	<time datetime="2019-09-09T14:30:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/09/JVM的堆内存模型/">JVM的堆内存模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">java , jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/09/JVM常见参数及命令/" class="archive-article-date">
+        
+        <a href="/2019/09/09/JVM常见参数及命令/" class="archive-article-date">
   	<time datetime="2019-09-09T12:26:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/09/JVM常见参数及命令/">JVM常见参数及命令</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JVM的运行参数"><a href="#JVM的运行参数" class="headerlink" title="JVM的运行参数"></a>JVM的运行参数</h1><h2 id="三种参数类型"><a href="#三种参数类型" class="headerlink" title="三种参数类型"></a>三种参数类型</h2><ul>
+<li>标准参数<ul>
+<li>-help</li>
+<li>-version</li>
+<li>-server</li>
+<li>-client</li>
+<li>…</li>
+</ul>
+</li>
+<li>-X参数(非标准参数)<ul>
+<li>-Xint</li>
+<li>-Xcomp</li>
+</ul>
+</li>
+<li><strong>-XX参数</strong>(使用率极高)<ul>
+<li>-XX:newSize</li>
+<li>-XX:+UseSerialGC</li>
+</ul>
+</li>
+</ul>
+<h3 id="标准参数"><a href="#标准参数" class="headerlink" title="标准参数:"></a>标准参数:</h3><h4 id="server与-client参数"><a href="#server与-client参数" class="headerlink" title="-server与-client参数:"></a>-server与-client参数:</h4><ul>
+<li>它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快</li>
+<li>Client VM相对来讲会保守一些,初始堆空间会小一些,使用串行的垃圾回收器,他的目标是为了让JVM的启动速度更快,但运行速度会比Server模式慢些</li>
+<li>JVM在启动的时候会根据阴间和操作系统自动选择使用Server还是Client类型的JVM</li>
+<li>32位操作系统<ul>
+<li>如果是Windows系统,不论硬件配置如何,都默认使用Client类型的JVM</li>
+<li>如果是其他操作系统上,机器配置有2GB以上的内存同时有2个以上CPU的话默认使用server模式,否则使用client模式</li>
+</ul>
+</li>
+<li>64位操作系统<ul>
+<li>只有server类型,不支持client类型</li>
+</ul>
+</li>
+</ul>
+<h3 id="X参数"><a href="#X参数" class="headerlink" title="-X参数:"></a>-X参数:</h3><h4 id="Xint-Xcomp-Xmixed"><a href="#Xint-Xcomp-Xmixed" class="headerlink" title="-Xint,-Xcomp,-Xmixed"></a>-Xint,-Xcomp,-Xmixed</h4><ul>
+<li>在解释模式(interpreted mode)下,-Xint标记会强制JVM执行所有的字节码,当然这会降低运行速度,通常低10被或更多</li>
+<li><strong>-Xcomp</strong>参数与-Xint正好相反,JVM在第一次使用时会把所有的字节码编译成本地代码,从而带来最大程度的优化<ul>
+<li>然而,很多应用在使用-Xcomp也会有一些性能损失,当然这比使用-Xint损失的少,原因是-Xcomp没有让JVM启用IT编译器的全部功能.JIT编译器可以对是否需要编译做判断,如果所有代码都进行编译的话,对于一些只执行一次的代码就没有意义了</li>
+</ul>
+</li>
+<li>-Xmixed是混合模式,将解释模式与编译模式进行混合使用,有jvm自己决定,这是jvm默认的模式,也是推荐使用的模式</li>
+</ul>
+<h3 id="XX参数"><a href="#XX参数" class="headerlink" title="-XX参数:"></a>-XX参数:</h3><p>-XX也是非标准参数,<strong>主要用于jvm的调优</strong>和debug操作</p>
+<p>-XX参数的使用有2中方式,一种是boolean类型,一种是非boolean类型:</p>
+<ul>
+<li>boolean类型:<ul>
+<li>格式:<strong>-XX:[+-]<name></name></strong>表示启用或禁用<name>属性</name></li>
+<li>如:<strong>-XX:+DisableExplicitGC</strong>表示禁用手动调用gc操作,也就是说调用System.gc()无效(-表示不启用这个参数)</li>
+</ul>
+</li>
+<li>非boolean类型<ul>
+<li>格式:-XX<name>=<value>表示<name>属性的值为<value></value></name></value></name></li>
+<li>如:<strong>-XX:NewRatio=1</strong> 表示新生代和老年带的比值</li>
+</ul>
+</li>
+</ul>
+<h3 id="Xms与-Xmx参数-属于-XX参数"><a href="#Xms与-Xmx参数-属于-XX参数" class="headerlink" title="-Xms与-Xmx参数 ( 属于-XX参数 )"></a>-Xms与-Xmx参数 ( 属于-XX参数 )</h3><p>-Xms与-Xmx分别是设置jvm的堆内存的初始大小和最大大小</p>
+<p>-Xmx2048m : 等价于<strong>-XX:MaxHeapSize</strong>,设置JVM最大堆内存为2048M</p>
+<p>-Xms512m : 等价于<strong>-XX:InitialHeapSize</strong>,设置JVM初始堆内存为512M</p>
+<p>适当的调整jvm内存大小,可以充分利用服务器资源,让程序跑的更快</p>
+<h3 id="查看JVM的运行参数"><a href="#查看JVM的运行参数" class="headerlink" title="查看JVM的运行参数"></a>查看JVM的运行参数</h3><p>有些时候我们需要查看jvm的运行参数,这个需求可能会存在2中情况:</p>
+<p>第一,运行java命令打印出运行参数;</p>
+<p>第二,查看正在运行的java进程参数;</p>
+<h4 id="运行java命令时打印参数"><a href="#运行java命令时打印参数" class="headerlink" title="运行java命令时打印参数"></a>运行java命令时打印参数</h4><p>运行java命令时打印参数,需要添加<strong>-XX:+PrintFlagsFinal</strong>参数即可 ( 参数中”=”表示默认参数,”:=”表示值已经被修改,启用该参数 )</p>
+<h4 id="查看正在运行的JVM参数"><a href="#查看正在运行的JVM参数" class="headerlink" title="查看正在运行的JVM参数"></a>查看正在运行的JVM参数</h4><p>如果想要查看正在运行的JVM就需要借助<strong>jinfo</strong>命令查看.</p>
+<p>首先,启动一个tomcat用于测试,来观察下运行的jvm参数.</p>
+<p>例如:jinfo -flags 5212   (注:5212为线程id,可用jps查看)</p>
+<h3 id="通过jstat命令进行查看堆内存使用情况"><a href="#通过jstat命令进行查看堆内存使用情况" class="headerlink" title="通过jstat命令进行查看堆内存使用情况"></a>通过jstat命令进行查看堆内存使用情况</h3><p><strong>jstat</strong>命令可以查看堆内存各部分的使用量,以及加载类的数量,命令格式如下:</p>
+<p>jstat [ -命令选项 ] [ vmid ] [ 间隔时间/毫秒 ] [ 查询次数 ]</p>
+<p>例如 : jstat -class 6219  (6219使用jps查看)</p>
+<p>说明:</p>
+<ul>
+<li>Compiled:编译数量</li>
+<li>Failed : 失败数量</li>
+<li>Invalid : 不可用数量</li>
+<li>Time : 时间</li>
+<li>FailedType : 失败类型</li>
+<li>FailedMethod : 失败的方法</li>
+</ul>
+<h3 id="垃圾回收统计"><a href="#垃圾回收统计" class="headerlink" title="垃圾回收统计"></a>垃圾回收统计</h3><p>jstat -gc 6219</p>
+<p>说明:</p>
+<ul>
+<li>SOC:第一个 Survivor区的大小(KB)</li>
+<li>S1C:第二个 Survivor区的大小(KB)</li>
+<li>S0U:第一个 Survivor区的使用大小(KB)</li>
+<li>S1U:第二个 Survivor区的使用大小(KB)</li>
+<li>EC:Eden区的大小(KB)</li>
+<li>EU:Eden区的使用大小(KB)</li>
+<li>OC:old区大小</li>
+<li>OU:old区大小(KB)</li>
+<li>MC:方法区大小(KB)</li>
+<li>MU:方法区使用大小(KB)</li>
+<li>CCSC:压缩类空间大小(KB)</li>
+<li>CCSU:压缩类空间使用大小(KB)</li>
+<li>YGC:年轻代垃圾回收次数</li>
+<li>YGCT:年轻代垃圾回收消耗时间</li>
+<li>FGC:老年代垃圾回收次数</li>
+<li>FGCT:老年代垃圾回收消耗时间</li>
+<li>GCT:垃圾回收消耗时间</li>
+</ul>
+<h3 id="jmap分析内存溢出"><a href="#jmap分析内存溢出" class="headerlink" title="jmap分析内存溢出"></a>jmap分析内存溢出</h3><p>堆内配置信息和使用情况 : jmap -heap 6219</p>
+<p>查看内存中对象数量及大小 : </p>
+<ul>
+<li>查看所有对象 : jmap -histo <pid> | more</pid></li>
+<li>查看活跃对象 : jmap -histo : live <pid> | more</pid></li>
+</ul>
+<h3 id="将内存使用情况dump到文件中"><a href="#将内存使用情况dump到文件中" class="headerlink" title="将内存使用情况dump到文件中"></a>将内存使用情况dump到文件中</h3><p>有些时候我们需要将jvm当前内存中的情况dump到文件中,然后对它进行分析,jmap也是支持dump到文件中的</p>
+<p>用法: jmap -dump:format=b,file=dumpFileName <pid></pid></p>
+<p>示例:jmap -dump:format=b,file=/tmp/dump.dat 6219</p>
+<h3 id="通过jhat队dump文件进行分析"><a href="#通过jhat队dump文件进行分析" class="headerlink" title="通过jhat队dump文件进行分析"></a>通过jhat队dump文件进行分析</h3><p>在上衣小节中,我们将jvm的内存dump到文件中,这个文件是一个二进制的文件,不方便查看,这时我们可以借助于jhat工具进行查看</p>
+<p>用法: jhat -port <port> <file></file></port></p>
+<p>示例: jhat -port 9999 /tmp/dump.dat</p>
+<p>除了jhat,还能下载MAT工具进行分析</p>
+<h3 id="jstack的使用"><a href="#jstack的使用" class="headerlink" title="jstack的使用"></a>jstack的使用</h3><p>有些时候我们需要查看下jvm中的线程执行情况,比如,发现服务器的CPU的负载突然增高了,出现了死锁,死循环等,我们该如何分析呢?</p>
+<p>由于程序是正常运行的,没有任何的输出,从日志方面也看不出什么问题,所以就需要看下jvm的内部线程的执行情况,然后在进行分析查找出原因</p>
+<p>这个时候就需要借助jstack命令了,jstack的作用是将正在运行的jvm的<strong>线程情况</strong>进行快照,并且打印出来</p>
+<p>用法:jstack <pid></pid></p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -305,57 +332,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://Bender65535.github.io/2019/09/09/JVM常见参数及命令/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/04/HashMap在面试中的各种考点/" class="archive-article-date">
-  	<time datetime="2019-09-04T14:16:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/09/JVM的堆内存模型/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JVM的堆内存模型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/04/HashMap在面试中的各种考点/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HashMap在面试中的各种考点</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/04/HashMap在面试中的各种考点/">HashMap在面试中的各种考点</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -378,8 +463,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
