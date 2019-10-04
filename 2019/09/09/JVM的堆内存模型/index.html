@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
   <title>JVM的堆内存模型 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JDK1.7的堆内存模型:  Young 年轻区(代) Young区被划分为三部分,Eden区和两个大小严格相同的Survivor区,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个留作垃圾收集时辅助对象用,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenur">
+  <meta name="description" content="JDK1.7的堆内存模型:">
 <meta name="keywords" content="java , jvm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM的堆内存模型">
 <meta property="og:url" content="http://Bender65535.github.io/2019/09/09/JVM的堆内存模型/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="JDK1.7的堆内存模型:  Young 年轻区(代) Young区被划分为三部分,Eden区和两个大小严格相同的Survivor区,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个留作垃圾收集时辅助对象用,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenur">
+<meta property="og:description" content="JDK1.7的堆内存模型:">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1567920726148.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043123417.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043436785.png">
-<meta property="og:updated_time" content="2019-09-10T00:37:29.925Z">
+<meta property="og:updated_time" content="2019-10-04T03:14:52.018Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM的堆内存模型">
-<meta name="twitter:description" content="JDK1.7的堆内存模型:  Young 年轻区(代) Young区被划分为三部分,Eden区和两个大小严格相同的Survivor区,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个留作垃圾收集时辅助对象用,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenur">
+<meta name="twitter:description" content="JDK1.7的堆内存模型:">
 <meta name="twitter:image" content="http://bender65535.github.io/2019/09/09/JVM的堆内存模型/1567920726148.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -180,6 +180,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="JDK1-7的堆内存模型"><a href="#JDK1-7的堆内存模型" class="headerlink" title="JDK1.7的堆内存模型:"></a>JDK1.7的堆内存模型:</h2><p><img src="//Bender65535.github.io/2019/09/09/JVM的堆内存模型/1567920726148.png" alt="1568039480585" style="zoom:80%;"></p>
+<a id="more"></a>
 <ul>
 <li><p>Young 年轻区(代)</p>
 <p>Young区被划分为三部分<strong>,Eden区</strong>和两个<strong>大小严格相同</strong>的<strong>Survivor区</strong>,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个<strong>留作垃圾收集时辅助对象用</strong>,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenured区间.</p>

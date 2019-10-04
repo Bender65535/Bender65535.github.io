@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
   <title>Java的字节码与类创建过程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
+  <meta name="description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java的字节码与类创建过程">
 <meta property="og:url" content="http://Bender65535.github.io/2019/08/21/Java的字节码与类创建过程/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
+<meta property="og:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png">
-<meta property="og:updated_time" content="2019-08-21T15:34:19.238Z">
+<meta property="og:updated_time" content="2019-10-04T03:14:08.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java的字节码与类创建过程">
-<meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;  javac xxx.java jdk将该文件输出为xxx.class文件,存入磁盘   java xxx">
+<meta name="twitter:description" content="Hello World的执行过程12345public class Hello&amp;#123;    public static void main(String[] args)&amp;#123;        System.out.println(&quot;hello &quot;);    &amp;#125;&amp;#125;">
 <meta name="twitter:image" content="http://bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -177,6 +177,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Hello-World的执行过程"><a href="#Hello-World的执行过程" class="headerlink" title="Hello World的执行过程"></a>Hello World的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <ul>
 <li>javac xxx.java<ul>
 <li>jdk将该文件输出为xxx.class文件,存入磁盘</li>

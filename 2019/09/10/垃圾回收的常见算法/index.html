@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
   <title>垃圾回收的常见算法 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用 1.1原理假设">
+  <meta name="description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用">
 <meta name="keywords" content="java , jvm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="垃圾回收的常见算法">
 <meta property="og:url" content="http://Bender65535.github.io/2019/09/10/垃圾回收的常见算法/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用 1.1原理假设">
+<meta property="og:description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568078690464.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568079502068.png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568082948989.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568083019878.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568083120122.png">
-<meta property="og:updated_time" content="2019-09-10T02:57:31.403Z">
+<meta property="og:updated_time" content="2019-10-04T03:13:30.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾回收的常见算法">
-<meta name="twitter:description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用 1.1原理假设">
+<meta name="twitter:description" content="垃圾回收常见算法自动化的管理内存资源,垃圾回收机制必须要有一套算法来进行计算,哪些是有效的对象,哪些是无效的对象,对于无效的对象就要进行回收处理 常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法  1.应用计数法引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用">
 <meta name="twitter:image" content="http://bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568078690464.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -189,6 +189,7 @@
 <p>常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法</p>
 <hr>
 <h3 id="1-应用计数法"><a href="#1-应用计数法" class="headerlink" title="1.应用计数法"></a>1.应用计数法</h3><p>引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用</p>
+<a id="more"></a>
 <h3 id="1-1原理"><a href="#1-1原理" class="headerlink" title="1.1原理"></a>1.1原理</h3><p>假设一个对象A,任何一个对象(例如B对象)对A的引用,那么对象A的引用计数器+1,当引用失败时,对象A的引用计数器就-1,如果对象的计数器的值为0,就说明对象A没有了引用,可以被会回收</p>
 <p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568078690464.png" alt="1568078690464"></p>
 <h4 id="1-2优缺点"><a href="#1-2优缺点" class="headerlink" title="1.2优缺点"></a>1.2优缺点</h4><p>优点:</p>

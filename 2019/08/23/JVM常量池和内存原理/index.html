@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
   <title>JVM常量池和内存原理 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
+  <meta name="description" content="JVM内存模型:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM常量池和内存原理">
 <meta property="og:url" content="http://Bender65535.github.io/2019/08/23/JVM常量池和内存原理/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
+<meta property="og:description" content="JVM内存模型:">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png">
-<meta property="og:updated_time" content="2019-08-23T06:33:00.561Z">
+<meta property="og:updated_time" content="2019-10-04T03:14:23.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM常量池和内存原理">
-<meta name="twitter:description" content="JVM内存模型:  JVM常量池中的表:   常量表类型 标志值(占1byte) 描述     CONSTANT_Utf8 1 UTF-8的Unicode字符串   CONSTANT_Integer 3 int类型的字面值(-128~127)   CONSTANT_Float 4 float类型的字面值   CONSTANT_Long 5 long类型的字面值   CONSTANT_Double">
+<meta name="twitter:description" content="JVM内存模型:">
 <meta name="twitter:image" content="http://bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -178,6 +178,7 @@
       
         <p>JVM内存模型:</p>
 <p><img src="//Bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png" alt="1566528627305"></p>
+<a id="more"></a>
 <h3 id="JVM常量池中的表"><a href="#JVM常量池中的表" class="headerlink" title="JVM常量池中的表:"></a>JVM常量池中的表:</h3><table>
 <thead>
 <tr>

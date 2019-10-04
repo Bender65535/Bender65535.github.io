@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://Bender65535.github.io">
   <title>JVM常见参数及命令 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
+  <meta name="description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC">
 <meta name="keywords" content="java , jvm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM常见参数及命令">
 <meta property="og:url" content="http://Bender65535.github.io/2019/09/09/JVM常见参数及命令/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
+<meta property="og:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-10T01:06:16.808Z">
+<meta property="og:updated_time" content="2019-10-04T03:15:45.977Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM常见参数及命令">
-<meta name="twitter:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC    标准参数:-server与-client参数: 它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快 C">
+<meta name="twitter:description" content="JVM的运行参数三种参数类型 标准参数 -help -version -server -client …   -X参数(非标准参数) -Xint -Xcomp   -XX参数(使用率极高) -XX:newSize -XX:+UseSerialGC">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -195,6 +195,7 @@
 </ul>
 </li>
 </ul>
+<a id="more"></a>
 <h3 id="标准参数"><a href="#标准参数" class="headerlink" title="标准参数:"></a>标准参数:</h3><h4 id="server与-client参数"><a href="#server与-client参数" class="headerlink" title="-server与-client参数:"></a>-server与-client参数:</h4><ul>
 <li>它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快</li>
 <li>Client VM相对来讲会保守一些,初始堆空间会小一些,使用串行的垃圾回收器,他的目标是为了让JVM的启动速度更快,但运行速度会比Server模式慢些</li>

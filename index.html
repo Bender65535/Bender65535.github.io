@@ -176,101 +176,7 @@
 <h2 id="1-串行垃圾收集器"><a href="#1-串行垃圾收集器" class="headerlink" title="1.串行垃圾收集器"></a>1.串行垃圾收集器</h2><p>串行垃圾收集器,是指用单线程进行垃圾回收,垃圾回收时,<strong>只有一个线程在工作</strong>,并且java应用中的所有线程都要暂停,等待垃圾回收的完成,这种现象称之为SWT(Stop-The-World)</p>
 <p>对于交互性较强的应用而言,这种垃圾收集器是不能够接受的</p>
 <p>一般在javaweb中是不会采用该收集器的</p>
-<h3 id="1-1设置垃圾回收为串行收集器"><a href="#1-1设置垃圾回收为串行收集器" class="headerlink" title="1.1设置垃圾回收为串行收集器"></a>1.1设置垃圾回收为串行收集器</h3><p>在程序运行参数中添加2个参数,如下:</p>
-<ul>
-<li>-XX:+UseSerialGC<ul>
-<li>指定年轻带和老年代都使用串行垃圾收集器</li>
-</ul>
-</li>
-<li>-XX:+PrintGCDetails<ul>
-<li>打印打击回收的详细信息</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-并行的垃圾收集器"><a href="#2-并行的垃圾收集器" class="headerlink" title="2.并行的垃圾收集器"></a>2.并行的垃圾收集器</h2><p>并行垃圾收集器在串行垃圾收集器的基础之上做了改进,将单线程<strong>改为了多线程进行垃圾回收</strong>,这样可以缩短垃圾回收的时间(这里是指,并行能力较强的机器)</p>
-<p>当然了,并行垃圾收集器在垃圾收集的过程中也会暂停应用程序,这个和串行垃圾回收器是一样的,只是并行执行,速度更快些,暂停的时间更短一些</p>
-<h3 id="2-1ParNew垃圾收集器"><a href="#2-1ParNew垃圾收集器" class="headerlink" title="2.1ParNew垃圾收集器"></a>2.1ParNew垃圾收集器</h3><p>ParNew垃圾收集器是工作在年轻代上的,只是将串行的垃圾收集器改为了并行</p>
-<p>通过-XX:+UseParNewGC参数设置年轻代使用ParNew回收器,老年代使用的依然是串行收集器</p>
-<h3 id="2-2ParallelGC垃圾收集器"><a href="#2-2ParallelGC垃圾收集器" class="headerlink" title="2.2ParallelGC垃圾收集器"></a>2.2ParallelGC垃圾收集器</h3><p>ParallelGC收集器工作机制和ParNewGC收集器一样,只是在此基础之上新增了两个和系统吞吐量相关的参数,使得其使用起来更加的灵活和高效</p>
-<p>相关参数如下:</p>
-<ul>
-<li>-XX:+UseParallelGC<ul>
-<li>年轻代使用ParallelGC垃圾回收器,老年代使用串行回收器</li>
-</ul>
-</li>
-<li>-XX:+UseParallelOldGC<ul>
-<li>年轻代使用ParallelGC垃圾回收器,老年代使用ParallelGC垃圾回收器</li>
-</ul>
-</li>
-<li>-XX:MaxGCPauseMillis<ul>
-<li>设置最大的垃圾收集的停顿时间,单位为毫秒</li>
-<li>需要注意的是,ParallelGC为了达到设置的停顿时间,可能会调整堆大小或其他的参数,如果堆的大小设置的较小,就会导致GC工作变得很频繁,反而会影响到性能</li>
-<li>该参数使用需谨慎</li>
-</ul>
-</li>
-<li>-XX:GCTimeRatio<ul>
-<li>设置垃圾回收时间占程序运行时间的百分比,公式为1/(1+n)</li>
-<li>它的值为0-100之间的数字,默认值为99,也就是垃圾回收时间不能超过1%</li>
-</ul>
-</li>
-<li>-XX:UseAdaptiveSizePolicy<ul>
-<li>自适应GC模式,垃圾回收器将自动调整新生代,老年代参数,打到吞吐量,堆大小,停顿时间之间的平衡</li>
-<li>一般用于,手动调整参数比较困难的场景,让收集器自动进行调整</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-CMS垃圾收集器"><a href="#3-CMS垃圾收集器" class="headerlink" title="3.CMS垃圾收集器"></a>3.CMS垃圾收集器</h2><p>CMS全称Concurrent Mark Sweep,是一款并发的,使用标记清除算法的垃圾回收器,该回收器是针对老年代垃圾回收的,通过参数-XX:+UseConcMarkSweepGC进行设置</p>
-<p>CMS垃圾回收器的执行过程如下:</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568090863073.png" alt="1568090863073" style="zoom:80%;"></p>
-<ul>
-<li>初始化标记(CMS-inital-marks),标记root,会导致stw</li>
-<li>并发标记(CMS-Concurrent-mark),与用户线程同时运行</li>
-<li>预清理(CMS-concurrennt-preclean),与用户线程同时运行</li>
-<li>重新标记(CMS-remark),会导致stw</li>
-<li>并发清除(CMS-concurrent-sweep),与用户线程同时运行</li>
-<li>调整堆大小,设置CMS在清理之后进行内存压缩,目的是清理内存中的碎片</li>
-<li>并发重置状态等待下次CMS的触发(CMS-concurrent-reset),与用户线程同时运行</li>
-</ul>
-<h2 id="4-G1垃圾收集器-重点"><a href="#4-G1垃圾收集器-重点" class="headerlink" title="4.G1垃圾收集器(重点)"></a>4.G1垃圾收集器(重点)</h2><p>G1垃圾收集器是在jdk1.7正式使用的全新的垃圾收集器,oracle官方计划在jdk9中将G1变成默认的垃圾啊收集器,以代替CMS</p>
-<p>G1的设计原则就是简化JVM性能调优,开发人员只需要简单的三步即可完成调优:</p>
-<ul>
-<li>1.开启G1垃圾收集器</li>
-<li>2.设置堆的最大内存</li>
-<li>3.设置最大的停顿时间</li>
-</ul>
-<p>G1中提供了3中垃圾回收模式,Young GC , Mixed GC 和Full GC , 在不同的条件下被触发</p>
-<h3 id="4-1原理"><a href="#4-1原理" class="headerlink" title="4.1原理"></a>4.1原理</h3><p>G1垃圾收集器相对比其他收集器而言,最大的区别在于它取消了年轻代和老年代的划分,取而代之的是将堆划分为若干区域(Region),这些区域中包含了有逻辑上的年轻代,老年代区域</p>
-<p>这样做的好处就是,我们再也不用单独的空间对每个代进行设置了,不用担心每个代内存是否足够</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568091969623.png" alt="1568091969623" style="zoom:67%;"></p>
-<p><img src="\垃圾收集器以及内存分配\1568092139767.png" alt="1568092139767" style="zoom:67%;"></p>
-<p>在G1划分的区域中,年轻代的垃圾收集依然采用暂停所有应用线程的方式,将存活对象拷贝到老年代或者Survivor空间,G1收集器通过将对象从一个区域复制到另一个区域,完成了清理工作</p>
-<p>这就意味着,在正常的处理过程中,G1完成了堆的压缩(至少是部分堆的压缩),这样也就不会有CMS内存碎片问题的存在了</p>
-<p>在G1中,有一种特殊的区域,叫Humongous(巨型对象)区域</p>
-<ul>
-<li>如果一个对象占用的空间超过了分区容量50%以上,G1收集器就认为这是一个巨型对象</li>
-<li>这些巨型对象,默认直接回呗分配在老年代,但是如果它是一个短期存在的巨型对象,就会对垃圾收集器造成负面影响</li>
-<li>为了解决这个问题,G1划分了一个Humongous区,它用来专门存放巨型对象,如果一个H区装不下一个巨型对象,那么G1会寻找到连续的H分区来存储,为了能找到连续的H区,有时不得不启动Full GC</li>
-</ul>
-<h3 id="4-2Young-GC"><a href="#4-2Young-GC" class="headerlink" title="4.2Young GC"></a>4.2Young GC</h3><p>Young GC主要是对Eden区进行GC,它在Eden空间耗尽时会被触发</p>
-<ul>
-<li>Eden空间的数据移动到Survivor空间中,如果Survivor空间不够,Eden空间的部分数据会直接晋升到老年代空间.</li>
-<li>Survivor区的数据移动到新的Survivor区中,也有部分数据晋升到老年代空间中</li>
-<li>最终Eden空间的数据为空,GC停止工作,应用线程继续执行</li>
-</ul>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568096431880.png" alt="1568096431880"></p>
-<h4 id="4-2-1-Remembered-Set-已记忆集合"><a href="#4-2-1-Remembered-Set-已记忆集合" class="headerlink" title="4.2.1 Remembered Set(已记忆集合)"></a>4.2.1 Remembered Set(已记忆集合)</h4><p>在GC年轻代的对象时,我们如何找到年轻代中对象的根对象呢?</p>
-<p>根对象可能是在年轻代中,也可以在老年代中,那么老年代中的所有对象都是根么?</p>
-<p>如果全量扫描老年代,那么这样扫描下来会耗费大量时间</p>
-<p>于是,G1引进了RSet的概念,它的全称是Remembered Set,其作用是跟踪指向某个堆内的对象引用</p>
-<p><img src="\垃圾收集器以及内存分配\1568097149676.png" alt="1568097149676" style="zoom:67%;"></p>
-<p>每个Region初始化时,会初始化一个RSet,该集合用来记录并跟踪其它Region指向该Region中对象的引用,每个Region默认按照512kb划分成多个Card,所以RSet需要记录的东西应该是xx Region的xx Card</p>
-<h3 id="4-3Mixed-GC"><a href="#4-3Mixed-GC" class="headerlink" title="4.3Mixed GC"></a>4.3Mixed GC</h3><p>当越来越多的对象晋升到老年代old region时,为了避免堆内存被耗尽,虚拟机会触发一个混合的垃圾收集器,即Mixed GC,该算法并不是一个Old GC,除了回收整个Young Region,还会回收一部分的Old Region,这里需要注意:是一部分老年代,而不是全部老年代,可以选择哪些old region进行收集,从而可以对垃圾回收的耗时时间进行控制,也要注意的是Mixed GC 并不是Full GC Mixed GC什么时候触发?由参数<strong>-XX:InitiatingHeapOccupancyPercent=n</strong> 决定. 默认:45%,该参数的意思是:当老年代大小占整个堆大小百分比达到该阈值时触发.</p>
-<p>它的GC步骤分2步:</p>
-<ul>
-<li>1.全局并发标记(global concurrent marking)</li>
-<li>2.拷贝存活对象(evacuation)</li>
-</ul>
-
+        
       
 
       
@@ -347,66 +253,7 @@
 <p>常见的垃圾算法有 : 引用计数法, 标记清除法, 标记压缩法, 复制算法, 分代算法</p>
 <hr>
 <h3 id="1-应用计数法"><a href="#1-应用计数法" class="headerlink" title="1.应用计数法"></a>1.应用计数法</h3><p>引用计数是历史最悠久的一种算法,最早George E. Collins在1960的时候提出,50年后的今天,该算法依然被很多编程语言引用</p>
-<h3 id="1-1原理"><a href="#1-1原理" class="headerlink" title="1.1原理"></a>1.1原理</h3><p>假设一个对象A,任何一个对象(例如B对象)对A的引用,那么对象A的引用计数器+1,当引用失败时,对象A的引用计数器就-1,如果对象的计数器的值为0,就说明对象A没有了引用,可以被会回收</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568078690464.png" alt="1568078690464"></p>
-<h4 id="1-2优缺点"><a href="#1-2优缺点" class="headerlink" title="1.2优缺点"></a>1.2优缺点</h4><p>优点:</p>
-<ul>
-<li>实用性较高,无需等到内存不够的时候,才开始回收,运行时根据对象的计数器是否为0,就可以直接回收</li>
-<li>在垃圾回收过程中,应用无需挂起,如果申请内存时,内存不足,则立刻报OOM错误</li>
-<li>区域性,更新对象的计数器时,只是影响到该对象,不会扫描全部对象</li>
-</ul>
-<p>缺点:</p>
-<ul>
-<li>每次对象被引用时,都需要去更新计数器,有一点时间开销</li>
-<li>浪费CPU资源,即使内存够用,仍然在运行时进行计数器的统计</li>
-<li>无法解决循环引用问题(最大的缺点)</li>
-</ul>
-<h5 id="什么是循环引用"><a href="#什么是循环引用" class="headerlink" title="什么是循环引用?"></a>什么是循环引用?</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestA</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> TestB b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestB</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> TestA a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        A a=<span class="keyword">new</span> A();</span><br><span class="line">        B b=<span class="keyword">new</span> B();</span><br><span class="line">        a.b=b;</span><br><span class="line">        b.a=a;</span><br><span class="line">        a=<span class="keyword">null</span>;</span><br><span class="line">        b=<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>虽然a和b都为null,但是由于a和b存在循环引用,这样a和b永远都不会被回收.</p>
-<h3 id="2-标记清除法"><a href="#2-标记清除法" class="headerlink" title="2.标记清除法"></a>2.标记清除法</h3><p>标记清除算法,是将垃圾回收分为2个阶段,分别是标记和清除</p>
-<ul>
-<li>标记:从根节点开始标记引用对象</li>
-<li>清除:未被标记引用的对象就是垃圾对象,可以被清理</li>
-</ul>
-<h4 id="2-1原理"><a href="#2-1原理" class="headerlink" title="2.1原理"></a>2.1原理</h4><p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568079502068.png" alt="1568079502068"></p>
-<p>这张图代表的是程序运行期间所有对象的状态(Root对象的引用指向,以及指向对象的指向),它们的标记位全部都是0(也就是未标记,一下默认0就是未标记,1为已标记),假设这回儿有效内存空间耗尽了,JVM将会停止应用程序的运行并开启GC线程,然后开始进行标记工作,按照根搜索算法,标记完以后,对象的状态如下图:</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568079789567.png" alt="1568079789567"></p>
-<p>可以看到,按照根搜索算法,所有从root对象可达的对象就被标记为了存活对象,此时已经完成了第一阶段标记,接下来,就要执行第二阶段清除了,那么清除完以后,剩下的对象以及对象的状态如下图:</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568079946586.png" alt="1568079946586"></p>
-<p>可以看到,没有被标记的对象将会回收清除掉,而被标记的对象将会留下,并且会将标记位重新归0,接下来唤醒停止的程序线程,让程序继续运行即可</p>
-<h4 id="2-2优缺点"><a href="#2-2优缺点" class="headerlink" title="2.2优缺点"></a>2.2优缺点</h4><p>可以看到,标记清除算法解决了引用计数算法中的循环引用问题,没有从root节点引用的对象都会被回收,同样,标记清除算法也是有缺点的:</p>
-<ul>
-<li>效率较低,标记和清除两个动作都需要<strong>遍历所有的对象</strong>,并且在GC时,需要<strong>停止应用程序</strong>,对于交互性要求比较高的应用而言,这个体验是非常差的</li>
-<li>通过标记清除算法清理出来的内存,<strong>碎片化严重</strong>,因为被回收的对象可能存在于内存的各个角落,所以清理出来的内存是不连贯的,如图:</li>
-</ul>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568081993592.png" alt="1568081993592"></p>
-<h3 id="3-标记压缩算法"><a href="#3-标记压缩算法" class="headerlink" title="3.标记压缩算法"></a>3.标记压缩算法</h3><p>标记压缩算法是在标记清除算法的基础之上,做了优化改进的算法,和标记清除算法一样,也是从根节点开始,对对象的引用进行标记,在清理阶段,并不是简单的清理未标记的对象,而是<strong>将存活的对象压缩到内存的一端</strong>,然后清理边界以外的垃圾,从而解决了碎片化的问题</p>
-<h4 id="3-1原理"><a href="#3-1原理" class="headerlink" title="3.1原理"></a>3.1原理</h4><p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568082257456.png" alt="1568082257456" style="zoom: 67%;"></p>
-<h4 id="3-2优缺点"><a href="#3-2优缺点" class="headerlink" title="3.2优缺点"></a>3.2优缺点</h4><p>优缺点同标记清除算法,解决了标记清除算法的碎片化问题,同时,标记压缩算法多了一步,对象移动内存位置的步骤,其效率也有一定的影响</p>
-<h3 id="4-复制算法"><a href="#4-复制算法" class="headerlink" title="4.复制算法"></a>4.复制算法</h3><p>复制算法的核心就是,将原有的内存空间一分为二,每次只用其中的一块,在垃圾回收时,将正在使用的对象复制到另一个内存空间中,然后将该内存空间清空,叫喊两个内存的角色,完成垃圾的回收.</p>
-<p>如果内存中的垃圾对象较多,需要复制的对象就较少,这种情况下适合使用该方法并且效率比较高,反之,则不适合</p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568082948989.png" alt="1568082948989"></p>
-<p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568083019878.png" alt="1568083019878"></p>
-<h4 id="4-1原理"><a href="#4-1原理" class="headerlink" title="4.1原理"></a>4.1原理</h4><p><img src="//Bender65535.github.io/2019/09/10/垃圾回收的常见算法/1568083120122.png" alt="1568083120122"></p>
-<ul>
-<li>在GC开始的时候,对象只会存在于Eden区和名为”From”的Survivor区,Survivor区”To”是空的</li>
-<li>在紧接着进行GC,Eden区中所有存活的对象都会被复制到”To”,而在”From”区中,仍存活的对象会根据他们的年龄值来决定去向,年龄到达一定值(年龄阈值,可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到老年代中,没有达到阈值的对象会被复制到”To”区域中</li>
-<li>经过这次GC后,Eden区和From区已经被清空,这个时候,”From”和”To”会交换他们的角色,也就是新的”To”就是上次Gc前的”From”,新的”From”就是上次GC前的”To”,不管怎样,都会保证名为To的Survivor区域是空的</li>
-<li>GC会一直重复这样的过程,知道”To”区域被填满,”To”去被填满之后,会将所有对象移动到年老代中</li>
-</ul>
-<h4 id="4-2优缺点"><a href="#4-2优缺点" class="headerlink" title="4.2优缺点"></a>4.2优缺点</h4><p>优点:</p>
-<ul>
-<li>在垃圾对象多的情况下,效率较高</li>
-<li>清理后,内存无碎片</li>
-</ul>
-<p>缺点:</p>
-<ul>
-<li>在垃圾对象少(存活的对象多)的情况下,不适用,如:年老代内存</li>
-<li>分配的2块内存空间,在同一时刻,只能使用一半,内存使用率较低</li>
-</ul>
-<h3 id="5-分代算法"><a href="#5-分代算法" class="headerlink" title="5.分代算法"></a>5.分代算法</h3><p>前面介绍了多种回收算法,每一种算法都有自己的有点也有缺点,谁都不能替代谁,所以根据垃圾回收对象的特点进行选择,才是明智的选择</p>
-<p>分代算法其实就是这样的,根据回收对象的特点进行选择,在jvm中,<strong>年轻代适合使用复制算法</strong>,<strong>老年代适合使用标记清除或标记压缩算法</strong></p>
-
+        
       
 
       
@@ -480,31 +327,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="JDK1-7的堆内存模型"><a href="#JDK1-7的堆内存模型" class="headerlink" title="JDK1.7的堆内存模型:"></a>JDK1.7的堆内存模型:</h2><p><img src="//Bender65535.github.io/2019/09/09/JVM的堆内存模型/1567920726148.png" alt="1568039480585" style="zoom:80%;"></p>
-<ul>
-<li><p>Young 年轻区(代)</p>
-<p>Young区被划分为三部分<strong>,Eden区</strong>和两个<strong>大小严格相同</strong>的<strong>Survivor区</strong>,其中Survivor区间中,某一时刻只有其中一个是被使用的,另一个<strong>留作垃圾收集时辅助对象用</strong>,在Eden区间变满的时候,GC就会将存活的对象移动到空闲的Survivor区间中,根据jvm的策略,在经过几次垃圾收集后,任然存活于Survivor的对象将被移动到Tenured区间.</p>
-</li>
-<li><p>Tenured 年老区</p>
-<p>Tenured去主要保存生命周期长的对象,一般是一些老的对象,当一些对象在Young复制转移一定的次数以后,对象就会被转移到Tenured区,一般如果系统中用了<strong>application级别的缓冲</strong>,缓冲中的对象往往会被转移到这一区间,<strong>老年区的对象也有可能会被回收</strong></p>
-</li>
-<li><p>Perm 永久区</p>
-<p>Perm代主要保存class.method.filed对象,这部份的空间一般不会溢出,除非一次性加载了很多的类,不过在涉及<strong>热部署</strong>的应用服务器的时候,有时候会遇到<strong>java.lang.OutOfMemoryError : PermGen space</strong>这样的错误,造成这个错误的很大原因就有可能是每次都重新部署,但是重新部署后,类的class没有被卸载掉,这样就造成了大量的class对象保存在了perm中,这种情况下,一般<strong>重新启动应用服务器</strong>可以解决</p>
-</li>
-<li><p>Virtual区</p>
-<p>最大内存和初始内存的差值,就是Virtual区</p>
-</li>
-</ul>
-<h2 id="JDK1-8的堆内存模型"><a href="#JDK1-8的堆内存模型" class="headerlink" title="JDK1.8的堆内存模型"></a>JDK1.8的堆内存模型</h2><p><img src="//Bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043123417.png" alt="1568043123417" style="zoom: 67%;"></p>
-<p>由上图可以看出,jdk1.8的内存模型是由2部分组成,年轻代+老年代</p>
-<p>年轻代 : Eden + 2*Survivor</p>
-<p>年老代 : OldGen</p>
-<p>在jdk1.8中变化最大的Perm区,用Metaspace(元数据空间)进行了替换</p>
-<p>需要特别说明的是 : Metaspace所占用的内存空间不是在虚拟机内部,而是在本地内存空间汇总,这也是1.7的永久代最大的区别所在.</p>
-<p><img src="//Bender65535.github.io/2019/09/09/JVM的堆内存模型/1568043436785.png" alt="1568043436785" style="zoom: 50%;"></p>
-<p>CCS: 压缩指针(只有被开启才使用)</p>
-<p>CodeCache: 存放class</p>
-<h3 id="为什么要废弃1-7中的永久区"><a href="#为什么要废弃1-7中的永久区" class="headerlink" title="为什么要废弃1.7中的永久区?"></a>为什么要废弃1.7中的永久区?</h3><p>现实使用中,忧郁永久代内存经常不够用或发生泄露,爆出异常java.lang.OutOfMemoryError:PermGen.基于此,将永久才废弃,而该用元空间,改为了使用本地内存空间</p>
-
+        
       
 
       
@@ -597,104 +420,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="标准参数"><a href="#标准参数" class="headerlink" title="标准参数:"></a>标准参数:</h3><h4 id="server与-client参数"><a href="#server与-client参数" class="headerlink" title="-server与-client参数:"></a>-server与-client参数:</h4><ul>
-<li>它们的区别是Server VM 的初始值空间会大一些,默认使用的是并行垃圾回收器,启动慢运行快</li>
-<li>Client VM相对来讲会保守一些,初始堆空间会小一些,使用串行的垃圾回收器,他的目标是为了让JVM的启动速度更快,但运行速度会比Server模式慢些</li>
-<li>JVM在启动的时候会根据阴间和操作系统自动选择使用Server还是Client类型的JVM</li>
-<li>32位操作系统<ul>
-<li>如果是Windows系统,不论硬件配置如何,都默认使用Client类型的JVM</li>
-<li>如果是其他操作系统上,机器配置有2GB以上的内存同时有2个以上CPU的话默认使用server模式,否则使用client模式</li>
-</ul>
-</li>
-<li>64位操作系统<ul>
-<li>只有server类型,不支持client类型</li>
-</ul>
-</li>
-</ul>
-<h3 id="X参数"><a href="#X参数" class="headerlink" title="-X参数:"></a>-X参数:</h3><h4 id="Xint-Xcomp-Xmixed"><a href="#Xint-Xcomp-Xmixed" class="headerlink" title="-Xint,-Xcomp,-Xmixed"></a>-Xint,-Xcomp,-Xmixed</h4><ul>
-<li>在解释模式(interpreted mode)下,-Xint标记会强制JVM执行所有的字节码,当然这会降低运行速度,通常低10被或更多</li>
-<li><strong>-Xcomp</strong>参数与-Xint正好相反,JVM在第一次使用时会把所有的字节码编译成本地代码,从而带来最大程度的优化<ul>
-<li>然而,很多应用在使用-Xcomp也会有一些性能损失,当然这比使用-Xint损失的少,原因是-Xcomp没有让JVM启用IT编译器的全部功能.JIT编译器可以对是否需要编译做判断,如果所有代码都进行编译的话,对于一些只执行一次的代码就没有意义了</li>
-</ul>
-</li>
-<li>-Xmixed是混合模式,将解释模式与编译模式进行混合使用,有jvm自己决定,这是jvm默认的模式,也是推荐使用的模式</li>
-</ul>
-<h3 id="XX参数"><a href="#XX参数" class="headerlink" title="-XX参数:"></a>-XX参数:</h3><p>-XX也是非标准参数,<strong>主要用于jvm的调优</strong>和debug操作</p>
-<p>-XX参数的使用有2中方式,一种是boolean类型,一种是非boolean类型:</p>
-<ul>
-<li>boolean类型:<ul>
-<li>格式:<strong>-XX:[+-]<name></name></strong>表示启用或禁用<name>属性</name></li>
-<li>如:<strong>-XX:+DisableExplicitGC</strong>表示禁用手动调用gc操作,也就是说调用System.gc()无效(-表示不启用这个参数)</li>
-</ul>
-</li>
-<li>非boolean类型<ul>
-<li>格式:-XX<name>=<value>表示<name>属性的值为<value></value></name></value></name></li>
-<li>如:<strong>-XX:NewRatio=1</strong> 表示新生代和老年带的比值</li>
-</ul>
-</li>
-</ul>
-<h3 id="Xms与-Xmx参数-属于-XX参数"><a href="#Xms与-Xmx参数-属于-XX参数" class="headerlink" title="-Xms与-Xmx参数 ( 属于-XX参数 )"></a>-Xms与-Xmx参数 ( 属于-XX参数 )</h3><p>-Xms与-Xmx分别是设置jvm的堆内存的初始大小和最大大小</p>
-<p>-Xmx2048m : 等价于<strong>-XX:MaxHeapSize</strong>,设置JVM最大堆内存为2048M</p>
-<p>-Xms512m : 等价于<strong>-XX:InitialHeapSize</strong>,设置JVM初始堆内存为512M</p>
-<p>适当的调整jvm内存大小,可以充分利用服务器资源,让程序跑的更快</p>
-<h3 id="查看JVM的运行参数"><a href="#查看JVM的运行参数" class="headerlink" title="查看JVM的运行参数"></a>查看JVM的运行参数</h3><p>有些时候我们需要查看jvm的运行参数,这个需求可能会存在2中情况:</p>
-<p>第一,运行java命令打印出运行参数;</p>
-<p>第二,查看正在运行的java进程参数;</p>
-<h4 id="运行java命令时打印参数"><a href="#运行java命令时打印参数" class="headerlink" title="运行java命令时打印参数"></a>运行java命令时打印参数</h4><p>运行java命令时打印参数,需要添加<strong>-XX:+PrintFlagsFinal</strong>参数即可 ( 参数中”=”表示默认参数,”:=”表示值已经被修改,启用该参数 )</p>
-<h4 id="查看正在运行的JVM参数"><a href="#查看正在运行的JVM参数" class="headerlink" title="查看正在运行的JVM参数"></a>查看正在运行的JVM参数</h4><p>如果想要查看正在运行的JVM就需要借助<strong>jinfo</strong>命令查看.</p>
-<p>首先,启动一个tomcat用于测试,来观察下运行的jvm参数.</p>
-<p>例如:jinfo -flags 5212   (注:5212为线程id,可用jps查看)</p>
-<h3 id="通过jstat命令进行查看堆内存使用情况"><a href="#通过jstat命令进行查看堆内存使用情况" class="headerlink" title="通过jstat命令进行查看堆内存使用情况"></a>通过jstat命令进行查看堆内存使用情况</h3><p><strong>jstat</strong>命令可以查看堆内存各部分的使用量,以及加载类的数量,命令格式如下:</p>
-<p>jstat [ -命令选项 ] [ vmid ] [ 间隔时间/毫秒 ] [ 查询次数 ]</p>
-<p>例如 : jstat -class 6219  (6219使用jps查看)</p>
-<p>说明:</p>
-<ul>
-<li>Compiled:编译数量</li>
-<li>Failed : 失败数量</li>
-<li>Invalid : 不可用数量</li>
-<li>Time : 时间</li>
-<li>FailedType : 失败类型</li>
-<li>FailedMethod : 失败的方法</li>
-</ul>
-<h3 id="垃圾回收统计"><a href="#垃圾回收统计" class="headerlink" title="垃圾回收统计"></a>垃圾回收统计</h3><p>jstat -gc 6219</p>
-<p>说明:</p>
-<ul>
-<li>SOC:第一个 Survivor区的大小(KB)</li>
-<li>S1C:第二个 Survivor区的大小(KB)</li>
-<li>S0U:第一个 Survivor区的使用大小(KB)</li>
-<li>S1U:第二个 Survivor区的使用大小(KB)</li>
-<li>EC:Eden区的大小(KB)</li>
-<li>EU:Eden区的使用大小(KB)</li>
-<li>OC:old区大小</li>
-<li>OU:old区大小(KB)</li>
-<li>MC:方法区大小(KB)</li>
-<li>MU:方法区使用大小(KB)</li>
-<li>CCSC:压缩类空间大小(KB)</li>
-<li>CCSU:压缩类空间使用大小(KB)</li>
-<li>YGC:年轻代垃圾回收次数</li>
-<li>YGCT:年轻代垃圾回收消耗时间</li>
-<li>FGC:老年代垃圾回收次数</li>
-<li>FGCT:老年代垃圾回收消耗时间</li>
-<li>GCT:垃圾回收消耗时间</li>
-</ul>
-<h3 id="jmap分析内存溢出"><a href="#jmap分析内存溢出" class="headerlink" title="jmap分析内存溢出"></a>jmap分析内存溢出</h3><p>堆内配置信息和使用情况 : jmap -heap 6219</p>
-<p>查看内存中对象数量及大小 : </p>
-<ul>
-<li>查看所有对象 : jmap -histo <pid> | more</pid></li>
-<li>查看活跃对象 : jmap -histo : live <pid> | more</pid></li>
-</ul>
-<h3 id="将内存使用情况dump到文件中"><a href="#将内存使用情况dump到文件中" class="headerlink" title="将内存使用情况dump到文件中"></a>将内存使用情况dump到文件中</h3><p>有些时候我们需要将jvm当前内存中的情况dump到文件中,然后对它进行分析,jmap也是支持dump到文件中的</p>
-<p>用法: jmap -dump:format=b,file=dumpFileName <pid></pid></p>
-<p>示例:jmap -dump:format=b,file=/tmp/dump.dat 6219</p>
-<h3 id="通过jhat队dump文件进行分析"><a href="#通过jhat队dump文件进行分析" class="headerlink" title="通过jhat队dump文件进行分析"></a>通过jhat队dump文件进行分析</h3><p>在上衣小节中,我们将jvm的内存dump到文件中,这个文件是一个二进制的文件,不方便查看,这时我们可以借助于jhat工具进行查看</p>
-<p>用法: jhat -port <port> <file></file></port></p>
-<p>示例: jhat -port 9999 /tmp/dump.dat</p>
-<p>除了jhat,还能下载MAT工具进行分析</p>
-<h3 id="jstack的使用"><a href="#jstack的使用" class="headerlink" title="jstack的使用"></a>jstack的使用</h3><p>有些时候我们需要查看下jvm中的线程执行情况,比如,发现服务器的CPU的负载突然增高了,出现了死锁,死循环等,我们该如何分析呢?</p>
-<p>由于程序是正常运行的,没有任何的输出,从日志方面也看不出什么问题,所以就需要看下jvm的内部线程的执行情况,然后在进行分析查找出原因</p>
-<p>这个时候就需要借助jstack命令了,jstack的作用是将正在运行的jvm的<strong>线程情况</strong>进行快照,并且打印出来</p>
-<p>用法:jstack <pid></pid></p>
-
+        
       
 
       
@@ -774,12 +500,7 @@
 <p>当二者相与时,hashcode的范围必然会在0-15之间</p>
 <p>HashMap的初始容量为16</p>
 <p>初始长度必须是2的指数次幂,如果不是,就在调用put方法的时候把初始容量改成大于这个数的2的指数次幂的数(如:7–&gt;8)</p>
-<h3 id="为什么加载因子是0-75"><a href="#为什么加载因子是0-75" class="headerlink" title="为什么加载因子是0.75?"></a>为什么加载因子是0.75?</h3><p>如果加载因子大于0.75,可以最大化利用空间,加载因子小于0.75时,不容易发生哈希冲突.折中后选择0.75效率最高</p>
-<h3 id="为什么HashMap的链表长度到8时才转为红黑树"><a href="#为什么HashMap的链表长度到8时才转为红黑树" class="headerlink" title="为什么HashMap的链表长度到8时才转为红黑树"></a>为什么HashMap的链表长度到8时才转为红黑树</h3><p>元素放入HashMap中产生哈希碰撞满足泊松分布,当hashmap放入的元素越来越多时,就会扩容,这时发生碰撞的概率越来越低,通过计算,当hashmap的某个链的大小到达8的概率为0.00000006,再往上就越接近于0,这时可将链表树化,方便查找数据</p>
-<h3 id="HashMap的扩容机制"><a href="#HashMap的扩容机制" class="headerlink" title="HashMap的扩容机制"></a>HashMap的扩容机制</h3><p>当hashmap中的元素个数超过数组大小<em>loadFactor时，就会进行数组扩容,loadFactor的默认值为0.75，也就是说，默认情况下，数组大小为16，那么当hashmap中元素个数超过16</em>0.75=12的时候，就把数组的大小扩展为2*16=32，即扩大一倍，而在hashmap数组扩容之后，最消耗性能的点就出现了：原数组中的数据必须重新计算其在新数组中的位置，并放进去，这就是resize</p>
-<h3 id="HashMap产生死锁的原因"><a href="#HashMap产生死锁的原因" class="headerlink" title="HashMap产生死锁的原因"></a>HashMap产生死锁的原因</h3><p>JDK7在扩容把元素迁移到新的数组上时,在链表或树上的元素会形成一个闭环,当再次遍历扩容后的hashmap时就会死锁</p>
-<p>在JDK8中,hashmap使用了高低位四个指针避免了扩容的死锁,但在多线程下还是会产生数据丢失</p>
-
+        
       
 
       
@@ -854,93 +575,7 @@
       
         <p>JVM内存模型:</p>
 <p><img src="//Bender65535.github.io/2019/08/23/JVM常量池和内存原理/1566528627305.png" alt="1566528627305"></p>
-<h3 id="JVM常量池中的表"><a href="#JVM常量池中的表" class="headerlink" title="JVM常量池中的表:"></a>JVM常量池中的表:</h3><table>
-<thead>
-<tr>
-<th>常量表类型</th>
-<th>标志值(占1byte)</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CONSTANT_Utf8</td>
-<td>1</td>
-<td>UTF-8的Unicode字符串</td>
-</tr>
-<tr>
-<td>CONSTANT_Integer</td>
-<td>3</td>
-<td>int类型的字面值(-128~127)</td>
-</tr>
-<tr>
-<td>CONSTANT_Float</td>
-<td>4</td>
-<td>float类型的字面值</td>
-</tr>
-<tr>
-<td>CONSTANT_Long</td>
-<td>5</td>
-<td>long类型的字面值</td>
-</tr>
-<tr>
-<td>CONSTANT_Double</td>
-<td>6</td>
-<td>double类型的字面值</td>
-</tr>
-<tr>
-<td>CONSTANT_Class</td>
-<td>7</td>
-<td>对一个类或接口的符号引用</td>
-</tr>
-<tr>
-<td>CONSTANT_String</td>
-<td>8</td>
-<td>String类型字面值的引用</td>
-</tr>
-<tr>
-<td>CONSTANT_Fieldref</td>
-<td>9</td>
-<td>对一个字段的符号引用</td>
-</tr>
-<tr>
-<td>CONSTANT_Methodref</td>
-<td>10</td>
-<td>对一个类中方法的符号引用</td>
-</tr>
-<tr>
-<td>CONSTANT_InterfaceMetodref</td>
-<td>11</td>
-<td>对一个接口中方法的符号引用</td>
-</tr>
-<tr>
-<td>CONSTANT_NameAndType</td>
-<td>12</td>
-<td>对一个字段或方法的部分符号引用</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="string">"haha"</span>;</span><br><span class="line">        System.out.println(string1==string2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">true</span><br></pre></td></tr></table></figure>
-<h3 id="字符串比较过程"><a href="#字符串比较过程" class="headerlink" title="字符串比较过程:"></a>字符串比较过程:</h3><ul>
-<li>执行javac的时候,将string1编译为Unicode编码</li>
-<li>class加载进入方法区</li>
-<li>将string1的值存入CONSTANT_Utf8表中</li>
-<li>将string1的tag存入CONSTANT_String表,表中的索引值指向CONSTANT_Utf8</li>
-<li>string1的压入线程栈,其引用指向CONSTANT_String表中所对应的tag再指向CONSTANT_Utf8的值</li>
-<li>string2也指向相同的tag再指向CONSTANT_Utf8的值</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="keyword">new</span> String(<span class="string">"haha"</span>);</span><br><span class="line">        System.out.println(string1==string2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">false</span><br></pre></td></tr></table></figure>
-<h3 id="原因"><a href="#原因" class="headerlink" title="原因:"></a>原因:</h3><p>string2指向的是堆内存的地址,而堆内存中的指针才是指向常量池(注意:如果”haha”这个字面量在前面已经出现过了,那么只创建了一个对象,如果没有出现,就创建了两个对象)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="keyword">new</span> String(<span class="string">"haha"</span>);</span><br><span class="line">        System.out.println(string1==string2.intern());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">true</span><br></pre></td></tr></table></figure>
-<h3 id="原因-1"><a href="#原因-1" class="headerlink" title="原因:"></a>原因:</h3><p>intern()方法返回的堆内存中的指针,也就是常量池字面值的地址.如果常量池里面没有这个字面量,那么先把这个字面值放到常量表里面之后返回常量表的地址</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        String string1=<span class="string">"haha"</span>;</span><br><span class="line">        String string2=<span class="string">"ha"</span>;</span><br><span class="line">        String string3=string2+<span class="string">"ha"</span></span><br><span class="line">        System.out.println(string1==string3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">false</span><br></pre></td></tr></table></figure>
-<h3 id="原因-2"><a href="#原因-2" class="headerlink" title="原因:"></a>原因:</h3><p>string3在运行时通过StringBuilder拼接后将拼接号的字符串放入常量池由于常量池已经有了”haha”所以不用再放,并且StringBuilder堆内存中的指针指向常量池”haha”.string3为StringBuilder的地址,string1为常量池中CONSTANT_Utf8表的地址,故二者不相等</p>
-<p><strong>注意</strong>:如果string3==”ha”+”ha”,则返回true.这是因为在编译时字符串已经拼接完毕string3=string2+”ha”之所以不会拼接是因为string2只有在执行时才变为真实地址</p>
-
+        
       
 
       
@@ -1003,81 +638,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Hello-World的执行过程"><a href="#Hello-World的执行过程" class="headerlink" title="Hello World的执行过程"></a>Hello World的执行过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>javac xxx.java<ul>
-<li>jdk将该文件输出为xxx.class文件,存入磁盘</li>
-</ul>
-</li>
-<li>java xxx.class<ul>
-<li>在内存中划出一块空间创建jvm</li>
-<li>校验磁盘中的xxx.class是否满足jvm规范</li>
-<li>类加载器将class文件加载到jvm中</li>
-<li>执行main方法,将main压入到线程栈</li>
-</ul>
-</li>
-</ul>
-<p><img src="//Bender65535.github.io/2019/08/21/Java的字节码与类创建过程/1566373036510.png" alt="JMM结构图"></p>
-<h2 id="在执行new关键字时发生了什么"><a href="#在执行new关键字时发生了什么" class="headerlink" title="在执行new关键字时发生了什么"></a>在执行new关键字时发生了什么</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Hello hello=<span class="keyword">new</span> Hello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="执行步骤"><a href="#执行步骤" class="headerlink" title="执行步骤:"></a>执行步骤:</h3><ul>
-<li>当执行碰到new关键字时,那么main主线程便在自己的线程栈中声明了一个对象Hello hello;</li>
-<li>在JVM的堆内存空间中申请一片内存地址,然后将Hello相关信息如:实例变量,实例方法等从方法区汇中加载到堆内存中.<strong>执行顺序</strong>:<ul>
-<li>加载实例信息进入开辟的内存中</li>
-<li>执行构造方法就是<init>方法(clinit为类构造方法)</init></li>
-</ul>
-</li>
-<li>对象的引用指向堆内存中开辟的对象</li>
-</ul>
-<h2 id="对堆内存中开辟对象的结构进行讲解"><a href="#对堆内存中开辟对象的结构进行讲解" class="headerlink" title="对堆内存中开辟对象的结构进行讲解:"></a>对堆内存中开辟对象的结构进行讲解:</h2><ul>
-<li>对象由对象的<strong>头部信息</strong>和实例信息组成<ul>
-<li><strong>头部信息</strong>:<ul>
-<li>填充值(使对象大小为2的n次方)</li>
-<li>持有指向方法区的指针(执行对象的静态方法要去方法区的方法表中查)</li>
-<li>描述信息<ul>
-<li>持有当前对象的线程的id</li>
-<li>持有对象的锁线程的个数</li>
-<li>在gc中存活的生命周期数</li>
-<li>偏向锁的标志(当线程已经对此对象上锁后,执行完毕,如果下一次访问该对象的线程也是上一次的线程,那么不对此线程重新上锁)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="类加载器的执行步骤"><a href="#类加载器的执行步骤" class="headerlink" title="类加载器的执行步骤:"></a>类加载器的执行步骤:</h3><ul>
-<li>加载 : 将class文件加入到jvm</li>
-<li>验证 : <ul>
-<li>验证类信息</li>
-<li>验证元数据信息</li>
-<li>验证魔数</li>
-<li>验证当前虚拟机版本和class文件一不一样</li>
-<li>验证字节码有没违规操作</li>
-</ul>
-</li>
-<li>准备 : 把<strong>类变量</strong>(static修饰的变量)初始化为<strong>初始值</strong>(jvm默认的值),final变量直接初始化为变量值<ul>
-<li>byte 0</li>
-<li>short 0</li>
-<li>int 0</li>
-<li>long 0L</li>
-<li>char “\u0000” (就是’ ‘)</li>
-<li>boolean false</li>
-<li>float 0.0f</li>
-<li>double 0.0d</li>
-<li>引用类型 null</li>
-</ul>
-</li>
-<li>解析 : 把符号引用转为直接引用</li>
-<li>初始化 : 把我们定义的static变量或者static静态代码块按顺序组织成<clinit>构造器(也称作类构造器)来初始化变量(将你设置的值初始化给变量)</clinit></li>
-<li>使用 : 在堆内存中创建对象的时候执行顺序<ul>
-<li>加载实例信息进入开辟的内存中</li>
-<li>执行构造方法就是<init>方法</init></li>
-</ul>
-</li>
-</ul>
-<h3 id="static方法无法访问非static变量的原因"><a href="#static方法无法访问非static变量的原因" class="headerlink" title="static方法无法访问非static变量的原因 :"></a>static方法无法访问非static变量的原因 :</h3><ul>
-<li>static修饰的方法是放入方法区中的,实例的变量是在堆内存,调用static方法时,从方法区中把数据调到线程栈中,没有产生实例,因此无法访问实例的变量(即非static修饰的变量)</li>
-</ul>
-
+        
       
 
       
@@ -1140,55 +701,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="下载node-js"><a href="#下载node-js" class="headerlink" title="下载node.js"></a>下载node.js</h3><h3 id="安装博客框架"><a href="#安装博客框架" class="headerlink" title="安装博客框架"></a>安装博客框架</h3><ol>
-<li><p>安装cnpm npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
-</li>
-<li><p>cnpm install -g hexo -cli</p>
-</li>
+<li>安装cnpm npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></li>
+<li>cnpm install -g hexo -cli</li>
 </ol>
-<h3 id="生成博客"><a href="#生成博客" class="headerlink" title="生成博客"></a>生成博客</h3><ol>
-<li><p>创建博客的文件夹</p>
-</li>
-<li><p>在文件夹中打开cmd,输入hexo init</p>
-</li>
-</ol>
-<h3 id="hexo生成"><a href="#hexo生成" class="headerlink" title="hexo生成"></a>hexo生成</h3><ol>
-<li>hexo n “标题”(生成的博客.md文件在source中)</li>
-<li>清理:hexo clean </li>
-<li><p>生成:hexo g</p>
-</li>
-<li><p>开启博客:hexo s</p>
-</li>
-</ol>
-<h3 id="部署到远端"><a href="#部署到远端" class="headerlink" title="部署到远端"></a>部署到远端</h3><ol>
-<li><p>在github中新建项目(用户部署个人博客的github仓库的命名必须是自己的昵称Bender65535.github.io)</p>
-</li>
-<li><p>安装git的部署插件:cnpm install –save hexo-deployer-git</p>
-</li>
-<li>设置_config.yml(注意空格)<ol>
-<li>type: git</li>
-<li>repo :<a href="https://github.com/Bender65535/Bender65535.github.io.git" target="_blank" rel="noopener">https://github.com/Bender65535/Bender65535.github.io.git</a></li>
-<li>branch: master</li>
-</ol>
-</li>
-<li>部署到远端:hexo d</li>
-</ol>
-<h3 id="自定义主题"><a href="#自定义主题" class="headerlink" title="自定义主题"></a>自定义主题</h3><ol>
-<li><p>主题: <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia</a></p>
-</li>
-<li><p>在博客文件中输入 git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> thems/yilia</p>
-</li>
-<li><p>加载主题</p>
-<ol>
-<li>改变_config.yml中的themes为主题的文件名<ol start="2">
-<li>hexo clean</li>
-<li>hexo g</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p>4.主题推送远端: hexo d</p>
-
+        
       
 
       

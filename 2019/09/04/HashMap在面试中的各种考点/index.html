@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="为什么要容量要2的指数次幂?hashcode的取模运算要换算成二进制,HashMap扩容后要移动所有下标都要移动位置,有需要进行取模运算 length=2的指数次幂的时候: hash%length==hash&amp;amp;(length-1),不为2的指数次幂时等式不满足 hash:       1001 0101 1000 0101  length-1:  0000 0000 0000 1111">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-05T06:02:48.491Z">
+<meta property="og:updated_time" content="2019-10-04T03:14:41.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap在面试中的各种考点">
 <meta name="twitter:description" content="为什么要容量要2的指数次幂?hashcode的取模运算要换算成二进制,HashMap扩容后要移动所有下标都要移动位置,有需要进行取模运算 length=2的指数次幂的时候: hash%length==hash&amp;amp;(length-1),不为2的指数次幂时等式不满足 hash:       1001 0101 1000 0101  length-1:  0000 0000 0000 1111">
@@ -182,6 +182,7 @@
 <p>当二者相与时,hashcode的范围必然会在0-15之间</p>
 <p>HashMap的初始容量为16</p>
 <p>初始长度必须是2的指数次幂,如果不是,就在调用put方法的时候把初始容量改成大于这个数的2的指数次幂的数(如:7–&gt;8)</p>
+<a id="more"></a>
 <h3 id="为什么加载因子是0-75"><a href="#为什么加载因子是0-75" class="headerlink" title="为什么加载因子是0.75?"></a>为什么加载因子是0.75?</h3><p>如果加载因子大于0.75,可以最大化利用空间,加载因子小于0.75时,不容易发生哈希冲突.折中后选择0.75效率最高</p>
 <h3 id="为什么HashMap的链表长度到8时才转为红黑树"><a href="#为什么HashMap的链表长度到8时才转为红黑树" class="headerlink" title="为什么HashMap的链表长度到8时才转为红黑树"></a>为什么HashMap的链表长度到8时才转为红黑树</h3><p>元素放入HashMap中产生哈希碰撞满足泊松分布,当hashmap放入的元素越来越多时,就会扩容,这时发生碰撞的概率越来越低,通过计算,当hashmap的某个链的大小到达8的概率为0.00000006,再往上就越接近于0,这时可将链表树化,方便查找数据</p>
 <h3 id="HashMap的扩容机制"><a href="#HashMap的扩容机制" class="headerlink" title="HashMap的扩容机制"></a>HashMap的扩容机制</h3><p>当hashmap中的元素个数超过数组大小<em>loadFactor时，就会进行数组扩容,loadFactor的默认值为0.75，也就是说，默认情况下，数组大小为16，那么当hashmap中元素个数超过16</em>0.75=12的时候，就把数组的大小扩展为2*16=32，即扩大一倍，而在hashmap数组扩容之后，最消耗性能的点就出现了：原数组中的数据必须重新计算其在新数组中的位置，并放进去，这就是resize</p>
