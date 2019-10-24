@@ -18,10 +18,10 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568090863073.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568091969623.png">
-<meta property="og:image" content="http://bender65535.github.io/垃圾收集器以及内存分配/1568097149676.png">
+<meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568097149676.png">
 <meta property="og:image" content="http://bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568096431880.png">
 <meta property="og:image" content="http://bender65535.github.io/垃圾收集器以及内存分配/1568097149676.png">
-<meta property="og:updated_time" content="2019-10-24T01:57:48.327Z">
+<meta property="og:updated_time" content="2019-10-24T02:05:34.610Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="垃圾收集器以及内存分配">
 <meta name="twitter:description" content="垃圾收集器​        在jvm中,实现了多种垃圾收集器,包括:串行垃圾收集器,并行垃圾收集器,CMS(并发)垃圾收集器,G1垃圾收集器. 1.串行垃圾收集器串行垃圾收集器,是指用单线程进行垃圾回收,垃圾回收时,只有一个线程在工作,并且java应用中的所有线程都要暂停,等待垃圾回收的完成,这种现象称之为SWT(Stop-The-World) 对于交互性较强的应用而言,这种垃圾收集器是不能够接受">
@@ -252,7 +252,7 @@
 <h3 id="4-1原理"><a href="#4-1原理" class="headerlink" title="4.1原理"></a>4.1原理</h3><p>G1垃圾收集器相对比其他收集器而言,最大的区别在于它取消了年轻代和老年代的划分,取而代之的是将堆划分为若干区域(Region),这些区域中包含了有逻辑上的年轻代,老年代区域</p>
 <p>这样做的好处就是,我们再也不用单独的空间对每个代进行设置了,不用担心每个代内存是否足够</p>
 <p><img src="//Bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568091969623.png" alt="1568091969623" style="zoom:67%;"></p>
-<p><img src="\垃圾收集器以及内存分配\1568097149676.png" alt="1568097149676" style="zoom:67%;"></p>
+<p><img src="//Bender65535.github.io/2019/09/10/垃圾收集器以及内存分配/1568097149676.png" alt="1568097149676" style="zoom:67%;"></p>
 <p>在G1划分的区域中,年轻代的垃圾收集依然采用暂停所有应用线程的方式,将存活对象拷贝到老年代或者Survivor空间,G1收集器通过将对象从一个区域复制到另一个区域,完成了清理工作</p>
 <p>这就意味着,在正常的处理过程中,G1完成了堆的压缩(至少是部分堆的压缩),这样也就不会有CMS内存碎片问题的存在了</p>
 <p>在G1中,有一种特殊的区域,叫Humongous(巨型对象)区域</p>
