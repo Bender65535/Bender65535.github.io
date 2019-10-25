@@ -174,16 +174,7 @@
       
         <h2 id="Java中的异常继承体系"><a href="#Java中的异常继承体系" class="headerlink" title="Java中的异常继承体系:"></a>Java中的异常继承体系:</h2><p><img src="//Bender65535.github.io/2019/10/25/Java中的异常及异常处理/1571668757309.png" alt="1571668757309"></p>
 <p>其中RuntimeException和Error是不可检查的,但是RuntimeException是可以捕获的,Error不能</p>
-<h2 id="常见的异常为可处理的异常"><a href="#常见的异常为可处理的异常" class="headerlink" title="常见的异常为可处理的异常:"></a>常见的异常为可处理的异常:</h2><p>ArrayIndexOutOfBoundsException 数组下标越界异常，</p>
-<p>ArithmaticException 算数异常 如除数为零</p>
-<p>NullPointerException 空指针异常</p>
-<p>IllegalArgumentException 不合法参数异常</p>
-<p>error是不可处理的异常:</p>
-<p>例如oom,stackoverflow.它们都是虚拟机内部的错误,无法捕获</p>
-<h3 id="异常不应该用来流程控制"><a href="#异常不应该用来流程控制" class="headerlink" title="异常不应该用来流程控制:"></a>异常不应该用来流程控制:</h3><p>异常对性能不利,抛出异常首先要创建一个新的对象,Throwable接口的构造函数调用名为fillInStackTrace()的本地同步方法,fillInStackTrace方法检查堆栈,收集调用跟踪信息,只要有异常抛出<strong>,java虚拟机就必须调整调用栈</strong>,因为在处理过程中创建了一个新的对象,并且异常是一个重量级的对象</p>
-<h2 id="Spring中的异常处理"><a href="#Spring中的异常处理" class="headerlink" title="Spring中的异常处理:"></a>Spring中的异常处理:</h2><h3 id="ControllerAdvice-全局异常处理"><a href="#ControllerAdvice-全局异常处理" class="headerlink" title="@ControllerAdvice:全局异常处理"></a>@ControllerAdvice:全局异常处理</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span>  <span class="comment">//RestControllerAdvice相当于只返回json的ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlobalExceptionHandler</span></span>&#123;</span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(Exception.class)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">myExceptionHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"你访问页面正忙"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="更正确的做法"><a href="#更正确的做法" class="headerlink" title="更正确的做法:"></a><strong>更正确的做法:</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> EmbeddedServletContainerCustomizer <span class="title">container</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>(container-&gt;&#123;   <span class="comment">//EmbeddedServletContainerCustomizer是servlet容器一种定制化的类</span></span><br><span class="line">        ErrorPage error404Page=<span class="keyword">new</span> ErrorPage(HttpStatus.NOT_FOUND,<span class="string">"/404.do"</span>);</span><br><span class="line">        ErrorPage error500Page=<span class="keyword">new</span> ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,<span class="string">"/500.do"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        
       
 
       
@@ -994,11 +985,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">java , jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">java , jvm</a>
               </li>
              
               <li class="article-tag-list-item">
